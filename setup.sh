@@ -2,6 +2,8 @@ sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install vim
 sudo apt-get -y install git
+sudo apt-get -y install curl
+sudo apt-get -y install wget
 sudo apt-get -y install zsh
 sudo apt-get -y install fzf
 sudo apt-get -y install bat
@@ -13,6 +15,9 @@ sudo apt-get -y install du-dust
 mkdir -p ~/.local/bin
 ln -s /usr/bin/batcat ~/.local/bin/bat
 ln -s $(which fdfind) ~/.local/bin/fd
+
+git config --global user.name "FallMaple"
+git config --global core.editor "vim"
 
 
 # startship
