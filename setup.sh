@@ -8,6 +8,7 @@ sudo apt-get -y install zsh
 sudo apt-get -y install fzf
 sudo apt-get -y install bat
 sudo apt-get -y install fd-find
+sudo apt-get -y install exa
 sudo apt-get -y install duf
 sudo apt-get -y install btop
 sudo apt-get -y install ripgrep
