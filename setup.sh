@@ -5,7 +5,7 @@ sudo apt-get -y install git
 sudo apt-get -y install curl
 sudo apt-get -y install wget
 sudo apt-get -y install zsh
-sudo apt-get -y install fzf
+# sudo apt-get -y install fzf
 sudo apt-get -y install bat
 sudo apt-get -y install fd-find
 sudo apt-get -y install exa
@@ -31,7 +31,10 @@ cp -r zsh/.zsh ~
 cp zsh/.zshrc ~ 
 
 # fzf key bindings
-wget -O ~/.zsh/fzf-key-bindings.zsh https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
+# wget -O ~/.zsh/fzf-key-bindings.zsh https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
 
 # setup default shell
 chsh -s $(which zsh)
