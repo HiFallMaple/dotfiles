@@ -26,6 +26,3 @@ alias la="ls -a"
 eval "$(starship init zsh)"
 
 export PATH=$PATH:~/.local/bin
-
-# fzf Key bindings
-source "/home/tony/.fzf/shell/key-bindings.zsh"
