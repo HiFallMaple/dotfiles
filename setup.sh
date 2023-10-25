@@ -33,8 +33,9 @@ cp zsh/.zshrc ~
 # fzf key bindings
 # wget -O ~/.zsh/fzf-key-bindings.zsh https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
-
+cp ~/.fzf/bin/* ~/.local/bin
+cp ~/.fzf/shell/key-bindings.zsh ~/.zsh/fzf-key-bindings.zsh
+rm -rf ~/.fzf
 
 # setup default shell
 chsh -s $(which zsh)

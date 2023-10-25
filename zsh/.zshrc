@@ -27,4 +27,5 @@ eval "$(starship init zsh)"
 
 export PATH=$PATH:~/.local/bin
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf Key bindings
+source "/home/tony/.fzf/shell/key-bindings.zsh"
