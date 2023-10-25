@@ -26,3 +26,5 @@ alias la="ls -a"
 eval "$(starship init zsh)"
 
 export PATH=$PATH:~/.local/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
