@@ -6,7 +6,6 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-zinit snippet OMZL::key-bindings.zsh
 zinit snippet OMZL::history.zsh
 zinit snippet OMZP::sudo
 zinit snippet OMZP::git/git.plugin.zsh
