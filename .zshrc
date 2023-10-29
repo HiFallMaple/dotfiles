@@ -12,7 +12,7 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # load all zsh config
-for config (${HOME}/.zsh/*.zsh) source $config;
+for config (${HOME}/.config/.zsh/*.zsh) source $config;
 
 # https://askubuntu.com/a/847305
 # paste without highlight

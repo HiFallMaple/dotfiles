@@ -26,8 +26,7 @@ curl -sS https://starship.rs/install.sh | sh
 # install zinit
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 
-cp -r starship/.config ~
-cp -r zsh/.zsh ~
+cp -r .config ~
 cp zsh/.zshrc ~ 
 
 # fzf key bindings
