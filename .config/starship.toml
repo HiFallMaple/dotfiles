@@ -1,20 +1,111 @@
 format = """
-[\u2588](fg:#1C4961)[$directory](bg:#1C4961)[\uE0B0](fg:#1C4961 bg:#2F79A1)$git_branch[\uE0B0](fg:#2F79A1 bg:#3A95C7)$git_status[\uE0B0](#3A95C7 bg:#40A9E0)$time[\uE0B0](#40A9E0 bg:none) $all$character """
+[$directory](bg:#1C4961)$username$hostname$git_branch$git_status \
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$vcsh\
+$hg_branch\
+$pijul_channel\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$fennel\
+$golang\
+$guix_shell\
+$haskell\
+$haxe\
+$helm\
+$java\
+$julia\
+$kotlin\
+$gradle\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$solidity\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$buf\
+$nix_shell\
+$conda\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$env_var\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$jobs\
+$battery\
+$status\
+$os\
+$shell\
+$fill\
+$time\
+\n$character\
+"""
 
-add_newline = true
+
+# add_newline = false
 
 [directory]
-style = "bg:#1C4961 fg:white"
+format = "[  󰉋 $path ]($style)[$read_only]($read_only_style)[\uE0B0](fg:#afc77f bg:#4B65A3)"
+style = "bg:#afc77f fg:black"
 
 [git_branch]
-format = "[ $symbol$branch ]($style)"
+format = "[\uE0B0](fg:#2F79A1 bg:#none inverted)[ \ue725]($style)[ $branch ]($style)[\uE0B0](fg:#2F79A1 bg:#3A95C7)"
 style = "bg:#2F79A1 fg:white"
 
 [git_status]
-format = "[ $all_status$ahead_behind ]($style)"
+format = "[ $all_status$ahead_behind ]($style)[\uE0B0](#3A95C7 bg:#none)"
 style = "bg:#3A95C7 fg:white"
+
+[username]
+format = "[ $user ]($style)"
+style_root = "bg:#4B65A3 fg:white"
+style_user = "bg:#4B65A3 fg:white"
+
+[hostname]
+format = "[$ssh_symbol$hostname ]($style)[\uE0B0](#4B65A3 bg:#none)"
+ssh_symbol = '🌐 '
+style = "bg:#4B65A3 fg:white"
 
 [time]
 disabled = false
-format = "[ $time ]($style)"
-style = "bg:#40A9E0 fg:white"
+format = "[\uE0B2](#2F79A1 bg:none)[ $time ]($style)"
+style = "bg:#2F79A1 fg:white"
+
+[fill]
+symbol = ' '
+# style = 'bold green'
