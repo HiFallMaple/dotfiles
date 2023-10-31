@@ -27,13 +27,13 @@ curl -sS https://starship.rs/install.sh | sh
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 
 cp -r .config ~
-cp zsh/.zshrc ~ 
+cp .zshrc ~ 
 
 # fzf key bindings
 # wget -O ~/.zsh/fzf-key-bindings.zsh https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 cp ~/.fzf/bin/* ~/.local/bin
-cp ~/.fzf/shell/key-bindings.zsh ~/.zsh/fzf-key-bindings.zsh
+cp ~/.fzf/shell/key-bindings.zsh ~/.config/fzf-key-bindings.zsh
 rm -rf ~/.fzf
 
 # setup default shell
