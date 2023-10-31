@@ -32,6 +32,7 @@ cp .zshrc ~
 # fzf key bindings
 # wget -O ~/.zsh/fzf-key-bindings.zsh https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --bin
 cp ~/.fzf/bin/* ~/.local/bin
 cp ~/.fzf/shell/key-bindings.zsh ~/.config/fzf-key-bindings.zsh
 rm -rf ~/.fzf
