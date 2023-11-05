@@ -71,8 +71,6 @@ $battery\
 $status\
 $os\
 $shell\
-$fill\
-$time\
 \n$character\
 """
 
@@ -103,8 +101,8 @@ style = "bg:#4B65A3 fg:white"
 
 [time]
 disabled = false
-format = "[\uE0B2](#2F79A1 bg:none)[ $time ]($style)"
-style = "bg:#2F79A1 fg:white"
+format = "[ $time ]($style)"
+style = "fg:white"
 
 [fill]
 symbol = ' '

@@ -21,7 +21,6 @@ ln -s $(which fdfind) ~/.local/bin/fd
 git config --global user.name "FallMaple"
 git config --global core.editor "vim"
 
-
 # startship
 curl -sS https://starship.rs/install.sh | sh -s -- -f -y
 
@@ -30,7 +29,7 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 
 # copy config
 cp -r .config ~
-cp .zshrc ~ 
+cp .zshrc ~
 
 # install fzf
 # wget -O ~/.zsh/fzf-key-bindings.zsh https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
@@ -38,7 +37,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --bin
 cp ~/.fzf/bin/* ~/.local/bin
 # set fzf key bindings
-cp ~/.fzf/shell/key-bindings.zsh ~/.config/fzf-key-bindings.zsh
+cp ~/.fzf/shell/key-bindings.zsh ~/.config/.zsh/fzf-key-bindings.zsh
 rm -rf ~/.fzf
 
 # setup default shell
