@@ -2,7 +2,7 @@
 #    / __/___  / __/
 #   / /_/_  / / /_
 #  / __/ / /_/ __/
-# /_/   /___/_/ fzf-key-bindings.zsh
+# /_/   /___/_/ key-bindings.zsh
 #
 # - $FZF_TMUX_OPTS
 # - $FZF_CTRL_T_COMMAND

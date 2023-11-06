@@ -1,4 +1,7 @@
-# /bin/bash
+#!/bin/bash
+echo "Install: nodejs"
+# Add installation commands here
+
 # https://github.com/nodesource/distributions
 
 sudo apt-get update
