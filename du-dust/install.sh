@@ -25,3 +25,5 @@ wget "$deb_url" -O /tmp/du-dust.deb
 
 # Install the .deb file using apt-get
 sudo apt-get install -y /tmp/du-dust.deb
+
+rm /tmp/du-dust.deb
