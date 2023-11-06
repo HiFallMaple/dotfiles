@@ -38,8 +38,9 @@ link() {
 					fi
 				fi
 				# Create a symbolic link
-				parent_path=$(dirname "$path")
+				parent_path=$(dirname "$full_path2")
 				if [ ! -d "$parent_path" ]; then
+					echo "Create directory $parent_path"
 					mkdir -p "$parent_path"
 				fi
 				ln -s "$full_path1" "$full_path2"
