@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Uninstall: nodejs"
 # Add uninstallation commands here
 

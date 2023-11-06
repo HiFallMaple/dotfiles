@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Install: bat"
 # Add installation commands here
 sudo apt-get -y install bat

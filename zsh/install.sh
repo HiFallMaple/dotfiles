@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Install: zsh"
 # Add installation commands here
 # zsh

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check if folder names are provided as parameters
 if [ $# -lt 1 ]; then
@@ -20,7 +20,7 @@ for folder_name in "$@"; do
 	if [ ! -f "$folder_name/install.sh" ]; then
 		# Create install.sh if it doesn't exist
 		cat <<EOL >"$folder_name/install.sh"
-#!/bin/bash
+#!/bin/sh
 echo "Install: $folder_name"
 # Add installation commands here
 EOL
@@ -34,7 +34,7 @@ EOL
 	if [ ! -f "$folder_name/uninstall.sh" ]; then
 		# Create uninstall.sh if it doesn't exist
 		cat <<EOL >"$folder_name/uninstall.sh"
-#!/bin/bash
+#!/bin/sh
 echo "Uninstall: $folder_name"
 # Add uninstallation commands here
 EOL

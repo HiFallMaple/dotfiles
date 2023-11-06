@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Install: fzf"
 # Add installation commands here
 
@@ -11,7 +11,6 @@ create_deb() {
 	dpkg-deb -R $deb_name $TMP_DIR
 	rm -f $deb_name
 
-	echo "OK"
 	fzf/install --bin
 	PACKAGE_VERSION=$(awk -F= '/^version=/{print $2; exit}' fzf/install)
 	echo "fzf version: $PACKAGE_VERSION"

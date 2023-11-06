@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Install: nodejs"
 # Add installation commands here
 
