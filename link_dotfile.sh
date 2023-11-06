@@ -38,6 +38,10 @@ link() {
 					fi
 				fi
 				# Create a symbolic link
+				parent_path=$(dirname "$path")
+				if [ ! -d "$parent_path" ]; then
+					mkdir -p "$parent_path"
+				fi
 				ln -s "$full_path1" "$full_path2"
 				echo "Created a symbolic link from $short_path1 to $short_path2\n"
 			fi
