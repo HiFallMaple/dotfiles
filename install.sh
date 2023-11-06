@@ -49,17 +49,14 @@ install() {
 }
 
 install_base_apps() {
-  # Construct the full path to the file in the script's directory
-  base_list_file=$(full_path "$app_list")
-
   # Check if the file exists
-  if [ ! -f "$base_list_file" ]; then
-    echo "$base_list_file does not exist"
+  if [ ! -f "$app_list" ]; then
+    echo "$app_list does not exist"
     exit 1
   fi
 
   # Read package names from the file and store them in a space-separated string
-  packages=$(cat "$base_list_file" | tr '\n' ' ')
+  packages=$(cat "$app_list" | tr '\n' ' ')
 
   # Use dpkg to query the status of all packages and store the result in a variable
   dpkg_status=$(dpkg -l $packages 2>/dev/null)
@@ -68,7 +65,7 @@ install_base_apps() {
   for package in $packages; do
     if ! echo "$dpkg_status" | grep -q "ii  $package"; then
       echo "Installing $package..."
-      apt-get -y install "$package"
+      sudo apt-get -y install "$package"
     else
       echo "$package is already installed."
     fi
@@ -81,12 +78,14 @@ full_path() {
 
 # Get the directory of the script
 current_dir=$(pwd)
-app_list="$current_dir/base/appList"
+app_list=$(full_path "/base/appList")
 # Declare an array to track installed dependencies
 installed_dependencies=""
 
 sudo apt-get update
 sudo apt-get -y upgrade
+
+install_base_apps
 
 # Recursively check directories in the script's directory
 find "$current_dir" -mindepth 1 -type d | while read -r dir; do
