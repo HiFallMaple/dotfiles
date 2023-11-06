@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Install: fd"
 # Add installation commands here
 sudo apt-get -y install fd-find
