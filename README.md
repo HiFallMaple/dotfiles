@@ -16,10 +16,12 @@
   + zinit
   + starship
 
-## Setup
+## Install All
 ```shell
 sudo apt install git
-git clone https://github.com/tony53517230/dotfile.git
-cd dotfile
-./setup.sh
+git clone https://github.com/tony53517230/dotfiles.git
+cd dotfiles
+./link_dotfile.sh
+./init.sh
+./install.sh
 ```
