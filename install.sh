@@ -4,24 +4,20 @@
 install_dependencies() {
   local dependency_file=$(full_path "$1/dependency")
   for package in $(cat "$dependency_file" | tr '\n' ' '); do
-    # Skip empty lines
-    if [ -z "$package" ]; then
+    # Skip if the package is in installed_dependencies
+    if is_installed $package; then
       continue
     fi
-    # Check if the package is not in installed_dependencies
-    if ! is_installed $package; then
-      if [ -d $(full_path "$package") ]; then
-        # Check for a dependency file in the directory
-        if [ -f $(full_path "/$package/dependency") ]; then
-          install "$package"
-        fi
-      else
-        echo "Dependency $package not found in base/appList or as a directory."
-        exit 1
-      fi
+    # Exit if the package is not in the appList file or is a directory
+    if ! [ -d $(full_path "$package") ]; then
+      echo "Dependency $package not found in base/appList or as a directory."
+      exit 1
     fi
-  done <"$dependency_file"
-
+    # if there is a dependency file in the directory, install it
+    if [ -f $(full_path "/$package/dependency") ]; then
+      install "$package"
+    fi
+  done
 }
 
 is_installed() {
@@ -35,17 +31,20 @@ is_installed() {
 }
 
 install() {
-  if ! is_installed $1; then
-    echo "Installing $1"
-    # Check for a dependency file in the directory
-    if [ -f $(full_path "$1/dependency") ]; then
-      echo "Checking and installing dependencies for $1"
-      install_dependencies "$1"
-    fi
-    echo "Running install.sh in directory: $1"
-    (cd $(full_path "$1") && ./install.sh)
-    installed_dependencies="$installed_dependencies $1"
+  if is_installed $1; then
+    return 0
   fi
+
+  echo "Installing $1"
+  # Check for a dependency file in the directory
+  if [ -f $(full_path "$1/dependency") ]; then
+    echo "Checking and installing dependencies for $1"
+    install_dependencies "$1"
+  fi
+  
+  echo "Running install.sh in directory: $1"
+  (cd $(full_path "$1") && ./install.sh)
+  installed_dependencies="$installed_dependencies $1"
 }
 
 install_base_apps() {
