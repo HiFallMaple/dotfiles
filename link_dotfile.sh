@@ -9,53 +9,71 @@ convert_home_path_short() {
 }
 
 link() {
-	lines=$(cat "$1/dotfile/linkList" | tr ' ' ',' | tr '\n' ' ')
+	local lines=$(cat "$1/dotfile/linkList" | tr ' ' ',' | tr '\n' ' ')
 	# Read the linkList file line by line
 	for line in $lines; do
+		echo ""
 		if [ $(echo "$line" | awk -F',' '{print NF}') -ne 2 ]; then
 			echo "Error: "$1"/dotfile/linkList: \""$line"\" line should contain exactly two space-separated path names"
-		else
-			# Split the line into two path names
-			path1="$1/dotfile/"$(echo "$line" | awk -F',' '{print $1}')
-			path2=$(echo "$line" | awk -F',' '{print $2}')
-			full_path1=$(convert_home_path_full $path1)
-			full_path2=$(convert_home_path_full $path2)
-			short_path1=$(convert_home_path_short $path1)
-			short_path2=$(convert_home_path_short $path2)
-			echo "Link $short_path1 to $short_path2"
-			if isExist "$full_path1"; then
-				if isExist "$full_path2"; then
-					# ask for replace
-					read -r -p "Do you want to replace $short_path2 with $short_path1? (Y/n)" answer
-					# default answer is yes
-					if [ "$answer" = "" ] || [ "$answer" = "Y" ] || [ "$answer" = "y" ]; then
-						# Replace the file
-						rm -r "$full_path2"
-						echo "Remove $short_path2"
-					else
-						echo "Skipped $short_path2"
-						continue
-					fi
-				fi
-				# Create a symbolic link
-				parent_path=$(dirname "$full_path2")
-				if [ ! -d "$parent_path" ]; then
-					echo "Create directory $parent_path"
-					mkdir -p "$parent_path"
-				fi
-				ln -s "$full_path1" "$full_path2"
-				echo "Created a symbolic link from $short_path1 to $short_path2\n"
-			fi
+			exit 1
 		fi
+		# Split the line into two path names
+		local path1="$1/dotfile/"$(echo "$line" | awk -F',' '{print $1}')
+		local path2=$(echo "$line" | awk -F',' '{print $2}')
+		local src_full_path=$(convert_home_path_full $path1)
+		local dest_full_path=$(convert_home_path_full $path2)
+		local src_short_path=$(convert_home_path_short $path1)
+		local dest_short_path=$(convert_home_path_short $path2)
+		echo "Link $src_short_path to $dest_short_path"
+
+		if ! isExist "$src_full_path"; then
+			echo "$src_short_path does not exist. Please check the file or directory is in the correct location."
+			continue
+		fi
+
+		if ! isExist "$dest_full_path"; then
+			# Create a symbolic link
+			create_link "$src_short_path" "$src_full_path" "$dest_short_path" "$dest_full_path"
+			continue
+		fi
+
+		local answer="";
+		# ask for replace
+		read -r -p "$dest_short_path already exists. Do you want to replace? (Y/n)" answer
+		# default answer is yes
+		if [ "$answer" = "" ] || [ "$answer" = "Y" ] || [ "$answer" = "y" ]; then
+			# Replace the file
+			rm -r "$dest_full_path"
+			create_link "$src_short_path" "$src_full_path" "$dest_short_path" "$dest_full_path"
+			echo "Replace $dest_short_path"
+		else
+			# Skip the file
+			echo "Skip $dest_short_path"
+		fi
+
 	done
+}
+
+# parameters: $1: src_short_path, $2: src_full_path, $3: dest_short_path, $4: dest_full_path
+create_link() {
+	local src_short_path=$1
+	local src_full_path=$2
+	local dest_short_path=$3
+	local dest_full_path=$4
+
+	local parent_path=$(dirname "$dest_full_path")
+	if [ ! -d "$parent_path" ]; then
+		echo "Create directory $parent_path"
+		mkdir -p "$parent_path"
+	fi
+	ln -s "$src_full_path" "$dest_full_path"
+	echo "Created a symbolic link from $src_short_path to $dest_short_path"
 }
 
 isExist() {
 	if [ -e "$1" ]; then
-		echo "$1 already exists"
 		return 0
 	else
-		echo "$1 does not exist"
 		return 1
 	fi
 }
@@ -67,12 +85,14 @@ dirs=$(find "$current_dir" -mindepth 1 -type d)
 # Recursively check directories in the script's directory
 for dir in $dirs; do
 	# Check if the directory contains an install.sh file
-	if [ -d "$dir/dotfile" ]; then
-		if [ -f "$dir/dotfile/linkList" ]; then
-			# echo "$dir/dotfile/linkList found"
-			link "$dir"
-		else
-			echo "Error: $dir/dotfile/linkList not found\n Skipping $dir"
-		fi
+	if ! [ -d "$dir/dotfile" ]; then
+		continue
 	fi
+
+	if ! [ -f "$dir/dotfile/linkList" ]; then
+		echo "Error: $dir/dotfile/linkList not found\n Skipping $dir"
+		continue
+	fi
+	
+	link "$dir"
 done
