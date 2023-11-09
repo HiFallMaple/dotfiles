@@ -71,6 +71,8 @@ $battery\
 $status\
 $os\
 $shell\
+$fill\
+$time\
 \n$character\
 """
 
@@ -78,7 +80,7 @@ $shell\
 # add_newline = false
 
 [directory]
-format = "[  󰉋 $path ]($style)[$read_only]($read_only_style)[\uE0B0](fg:#afc77f bg:#4B65A3)"
+format = "[ $read_only 󰉋 $path ]($style)[\uE0B0](fg:#afc77f bg:#4B65A3)"
 style = "bg:#afc77f fg:black"
 
 [git_branch]
@@ -101,8 +103,8 @@ style = "bg:#4B65A3 fg:white"
 
 [time]
 disabled = false
-format = "[ $time ]($style)"
-style = "fg:white"
+format = "[\uE0B2](#2F79A1 bg:none)[ $time ]($style)"
+style = "bg:#2F79A1 fg:white"
 
 [fill]
 symbol = ' '
