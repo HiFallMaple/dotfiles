@@ -4,7 +4,7 @@
 install_dependencies() {
   local dependency_file=$(full_path "$1/dependency")
   for package in $(cat "$dependency_file" | tr '\n' ' '); do
-    # Skip if the package is in installed_dependencies
+    # Skip if the package is in installed_list
     if is_installed $package; then
       continue
     fi
@@ -21,11 +21,9 @@ install_dependencies() {
 }
 
 is_installed() {
-  if echo "$installed_dependencies" | grep -qw "$1" || grep -q "$1" $app_list; then
-    echo "$1 is already installed"
+  if echo "$installed_list" | grep -qw "$1"; then
     return 0
   else
-    echo "$1 is not installed"
     return 1
   fi
 }
@@ -41,10 +39,10 @@ install() {
     echo "Checking and installing dependencies for $1"
     install_dependencies "$1"
   fi
-  
+
   echo "Running install.sh in directory: $1"
   (cd $(full_path "$1") && ./install.sh)
-  installed_dependencies="$installed_dependencies $1"
+  installed_list="$installed_list $1"
 }
 
 install_base_apps() {
@@ -64,10 +62,12 @@ install_base_apps() {
   for package in $packages; do
     if ! echo "$dpkg_status" | grep -q "ii  $package"; then
       echo "Installing $package..."
-      sudo apt-get -y install "$package"
+      # sudo apt-get -y install "$package"
+
     else
       echo "$package is already installed."
     fi
+    installed_list="$installed_list $package"
   done
 }
 
@@ -79,7 +79,7 @@ full_path() {
 current_dir=$(pwd)
 app_list=$(full_path "/base/appList")
 # Declare an array to track installed dependencies
-installed_dependencies=""
+installed_list=""
 
 sudo apt-get update
 sudo apt-get -y upgrade
