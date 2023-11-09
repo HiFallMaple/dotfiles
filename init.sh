@@ -1,5 +1,23 @@
-git config --global init.defaultBranch master
-git branch -m master
+answer=""
+read -r -p "Please Input name of git: " answer
+if ! [ "$answer" = "" ]; then
+	git config --replace-all --global user.name $answer
+else
+	echo "Skip"
+fi
 
-git config --global user.name "FallMaple"
-git config --global core.editor "vim"
+answer=""
+read -r -p "Please Input email of git: " answer
+if ! [ "$answer" = "" ]; then
+	git config --replace-all --global user.email $answer
+else
+	echo "Skip"
+fi
+
+answer=""
+read -r -p "Please Input editor of git: " answer
+if ! [ "$answer" = "" ]; then
+	git config --replace-all --global core.editor $answer
+else
+	echo "Skip"
+fi
