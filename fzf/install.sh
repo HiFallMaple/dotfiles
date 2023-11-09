@@ -3,7 +3,6 @@ echo "Install: fzf"
 # Add installation commands here
 
 create_deb() {
-	TMP_DIR="fzf_deb"
 	rm -rf $TMP_DIR
 	mkdir -p $TMP_DIR
 	(cd $TMP_DIR && apt-get download fzf)
@@ -34,6 +33,7 @@ create_deb() {
 	dpkg-deb -b $TMP_DIR fzf_self_amd64.deb
 }
 
+TMP_DIR="fzf_deb"
 git clone https://github.com/junegunn/fzf.git
 create_deb
 sudo apt-get -y install ./fzf_self_amd64.deb
