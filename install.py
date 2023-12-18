@@ -1,7 +1,7 @@
 import subprocess
 import os
 import importlib
-from pydotfiles import Loader, check_sudo_nopasswd, add_sudo_nopasswd, remove_sudo_nopasswd, file2set
+from pydotfiles import Loader, check_sudo_nopasswd, add_sudo_nopasswd, remove_sudo_nopasswd, file2set, sudo_command
 from config import sub_dir
 
 
@@ -53,6 +53,9 @@ def gen_install_order(packages):
 if __name__ == "__main__":
     if not check_sudo_nopasswd():
         add_sudo_nopasswd()
+    with open(".log", "a") as f:
+        command = sudo_command(["apt-get", "update", "-y"])
+        subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
     install_order = gen_install_order(sub_dir-{"base"})
     for package in install_order:
         install(f"{package}.py")
