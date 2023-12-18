@@ -35,3 +35,9 @@ alias vim="nvim"
 eval "$(starship init zsh)"
 
 export PATH=$PATH:~/.local/bin
+# bun completions
+[ -s "/home/tony/.bun/_bun" ] && source "/home/tony/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

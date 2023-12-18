@@ -1,1 +1,4 @@
 *.deb
+test.sh
+__pycache__
+test.py
