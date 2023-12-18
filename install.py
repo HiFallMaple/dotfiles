@@ -55,7 +55,8 @@ if __name__ == "__main__":
         add_sudo_nopasswd()
     with open(".log", "a") as f:
         command = sudo_command(["apt-get", "update", "-y"])
-        subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
+        command = " ".join(command)
+        os.system(command)
     install_order = gen_install_order(sub_dir-{"base"})
     for package in install_order:
         install(f"{package}.py")
