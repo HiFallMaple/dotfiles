@@ -1,5 +1,5 @@
 import os
-from pydotfiles import Register, get_dependencies, expanduser, run_command, ROOT, USER
+from pydotfiles import Register, get_dependencies, run_command, ROOT, USER
 
 
 current_dir: str = os.path.dirname(os.path.realpath(__file__))

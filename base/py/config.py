@@ -1,6 +1,7 @@
 import os
 import sys
-from pydotfiles import Register, get_dependencies, sudo_command
+from pydotfiles import Register, get_dependencies, sudo_command, run_command, ROOT, USER
+
 
 def __get_appList():
     appList_path = os.path.join(parent_dir, "appList")

@@ -1,5 +1,5 @@
 import subprocess
-from .config import register, sudo_command
+from .config import register, run_command, ROOT
 
 operate = 'uninstall'
 package = "du-dust"
@@ -7,4 +7,5 @@ package = "du-dust"
 
 @register.registe_method('ubuntu', operate, package)
 def ubuntu_uninstall_package():
-	subprocess.run(sudo_command(["apt-get", "purge", "-y", package], check=True))
+	command = ["apt-get", "purge", "-y", package]
+	return run_command(command, ROOT)

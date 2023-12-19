@@ -7,6 +7,7 @@ from collections.abc import Callable
 import platform
 import distro
 from .loader import Loader
+import pwd
 
 
 class Register:
@@ -58,7 +59,7 @@ def dpkg_check(package):
 
 
 def command_check(command):
-    return shutil.which(command) is not None
+    return run_command(["which", command, ">", "/dev/null"], USER) == 0
 
 
 def get_dependencies(current_dir: str) -> list[str]:
@@ -134,6 +135,17 @@ def remove_sudo_nopasswd():
         print("The tmp file does not exist in the /etc/sudoers.d directory.")
 
 
+def run_command(command: list[str], permision: int):
+    if permision == USER:
+        command = ["sudo", "-u", USER_NAME] + command
+    command_str = " ".join(command)
+    return os.system(command_str)
+
+
+def expanduser(path: str) -> str:
+    return os.path.expanduser(path.replace("~", f"~{USER_NAME}"))
+
+
 def file2set(path):
     if os.path.exists(path):
         with open(path, "r") as f:
@@ -143,6 +155,15 @@ def file2set(path):
 
 
 OS_PLATFORM: str = get_platform_info()
+ORIGIN_UID: int
+ROOT = 0
+USER = 1
 
+with open('UID', 'r') as file:
+    first_line = file.readline().strip()
+    ORIGIN_UID = int(first_line)
+
+USER_NAME = pwd.getpwuid(ORIGIN_UID).pw_name
+  
 allow_platforms: list[str] = ["ubuntu", "arch", "windows", "macos"]
 allow_operates: list[str] = ["install", "uninstall", "check"]

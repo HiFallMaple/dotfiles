@@ -1,6 +1,6 @@
 import os
 import subprocess
-from .config import appList, register, sudo_command
+from .config import appList, register, sudo_command, run_command, ROOT
 
 operate = 'install'
 
@@ -11,5 +11,5 @@ for app in appList:
         with open(".log", "a") as f:
             f.write("-"*40+f"\nInstalling {app}...\n")
         with open(".log", "a") as f:
-            command = sudo_command(["apt-get", "install", "-y", app])
-            subprocess.run(command, stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
+            command = ["apt-get", "install", "-y", app]
+            run_command(command, ROOT)

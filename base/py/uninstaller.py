@@ -1,5 +1,5 @@
 import subprocess
-from .config import appList, register
+from .config import appList, register, run_command, ROOT
 
 
 operate = 'uninstall'
@@ -7,4 +7,5 @@ operate = 'uninstall'
 for app in appList:
 	@register.registe_method('ubuntu', operate, app)
 	def ubuntu_uninstall():
-		subprocess.run(["sudo", "apt-get", "purge", "-y", app], check=True)
+		command = ["apt-get", "purge", "-y", app]
+		run_command(command, ROOT)

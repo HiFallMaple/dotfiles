@@ -51,13 +51,14 @@ def gen_install_order(packages):
 
 
 if __name__ == "__main__":
-    if not check_sudo_nopasswd():
-        add_sudo_nopasswd()
-    with open(".log", "a") as f:
-        command = sudo_command(["apt-get", "update", "-y"])
-        command = " ".join(command)
-        os.system(command)
+    if os.getuid() != 0:
+        print("Please run as root.")
+        exit(1)
+    # with open(".log", "a") as f:
+        # command = sudo_command(["apt-get", "update", "-y"])
+        # command = " ".join(command)
+        # os.system(command)
     install_order = gen_install_order(sub_dir-{"base"})
     for package in install_order:
+    # for package in ["base"]:
         install(f"{package}.py")
-    remove_sudo_nopasswd()

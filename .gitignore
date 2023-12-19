@@ -2,3 +2,4 @@
 test.sh
 __pycache__
 test.py
+.log

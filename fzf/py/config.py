@@ -1,5 +1,5 @@
 import os
-from pydotfiles import Register, get_dependencies, sudo_command
+from pydotfiles import Register, get_dependencies, sudo_command, run_command, ROOT, USER, expanduser
 
 
 current_dir: str = os.path.dirname(os.path.realpath(__file__))

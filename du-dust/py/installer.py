@@ -3,7 +3,7 @@ import subprocess
 import os
 
 import requests
-from .config import register, sudo_command
+from .config import register, sudo_command, run_command, USER, ROOT
 
 operate = 'install'
 package = "du-dust"
@@ -26,7 +26,7 @@ def ubuntu_install_package():
     with open(".log", "a") as f:
         deb_url = __get_latest_amd64_deb_url()
         command = ["wget", deb_url, "-O", download_path]
-        subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
-        command = sudo_command(["apt-get", "install", "-y", download_path])
-        subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
+        run_command(command, USER)
+        command = ["apt-get", "install", "-y", download_path]
+        run_command(command, ROOT)
         os.remove(download_path)
