@@ -1,8 +1,9 @@
 import os
+import re
 import shutil
 import subprocess
 from pydotfiles import check_sudo_nopasswd, add_sudo_nopasswd, remove_sudo_nopasswd, sudo_command, file2set
-from config import sub_dir
+from config import SUB_DIR, WHICH_REX
 
 
 def ask_for_replace(dst):
@@ -23,12 +24,20 @@ def process_path(path, package_name):
         return path
     else:
         return os.path.abspath(os.path.join(package_name, "dotfile", path))
+    
 
+def replace_which(link_peer: str) -> (str, str):
+    matches = re.finditer(r'\$which/([^/\s]+)', link_peer)
+    for match in matches:
+        # match.group(0): $which/filename
+        # match.group(1): filename
+        link_peer = link_peer.replace(match.group(0), shutil.which(match.group(1)))
+    return link_peer
+    
 
 def link_dotfiles_of_package(package_name, linkList):
     for link_peer in linkList:
-        src, dst = link_peer.replace("$which", os.path.dirname(
-            shutil.which(package_name))).split()
+        src, dst = replace_which(link_peer).split()
         src = process_path(src, package_name)
         dst = os.path.expanduser(dst)
         print(src, dst)
@@ -57,6 +66,6 @@ if __name__ == "__main__":
     if not check_sudo_nopasswd():
         add_sudo_nopasswd()
 
-    walk_dir(sub_dir)
+    walk_dir(SUB_DIR)
 
     remove_sudo_nopasswd()

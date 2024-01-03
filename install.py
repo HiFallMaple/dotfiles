@@ -2,7 +2,7 @@ import subprocess
 import os
 import importlib
 from pydotfiles import Loader, check_sudo_nopasswd, add_sudo_nopasswd, remove_sudo_nopasswd, file2set, sudo_command
-from config import sub_dir
+from config import SUB_DIR
 
 
 def install(module_name):
@@ -58,7 +58,7 @@ if __name__ == "__main__":
         # command = sudo_command(["apt-get", "update", "-y"])
         # command = " ".join(command)
         # os.system(command)
-    install_order = gen_install_order(sub_dir-{"base"})
+    install_order = gen_install_order(SUB_DIR-{"base"})
     for package in install_order:
     # for package in ["base"]:
         install(f"{package}.py")
