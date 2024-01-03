@@ -164,6 +164,33 @@ with open('UID', 'r') as file:
     ORIGIN_UID = int(first_line)
 
 USER_NAME = pwd.getpwuid(ORIGIN_UID).pw_name
+
+LOGGING_CONFIG = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s,%(msecs)03d [%(levelname)s] %(name)s: %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        }
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'level': 'INFO',
+            'formatter': 'standard',
+            'filename': '.log',
+            'mode': 'a'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False
+        }
+    }
+}
   
 allow_platforms: list[str] = ["ubuntu", "arch", "windows", "macos"]
 allow_operates: list[str] = ["install", "uninstall", "check"]

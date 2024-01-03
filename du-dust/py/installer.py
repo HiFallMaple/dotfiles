@@ -1,9 +1,6 @@
-import shutil
-import subprocess
 import os
-
 import requests
-from .config import register, sudo_command, run_command, USER, ROOT
+from .config import register, sudo_command, run_command, USER, ROOT, logger
 
 operate = 'install'
 package = "du-dust"
@@ -21,12 +18,10 @@ def __get_latest_amd64_deb_url() -> str:
 
 @register.registe_method('ubuntu', operate, package)
 def ubuntu_install_package():
-    with open(".log", "a") as f:
-        f.write("-"*40+f"\nInstalling {package}...\n")
-    with open(".log", "a") as f:
-        deb_url = __get_latest_amd64_deb_url()
-        command = ["wget", deb_url, "-O", download_path]
-        run_command(command, USER)
-        command = ["apt-get", "install", "-y", download_path]
-        run_command(command, ROOT)
-        os.remove(download_path)
+    logger.info(f"Installing {package}...")
+    deb_url = __get_latest_amd64_deb_url()
+    command = ["wget", deb_url, "-O", download_path]
+    run_command(command, USER)
+    command = ["apt-get", "install", "-y", download_path]
+    run_command(command, ROOT)
+    os.remove(download_path)

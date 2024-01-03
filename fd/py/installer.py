@@ -1,7 +1,4 @@
-import shutil
-import subprocess
-import os
-from .config import register, sudo_command, run_command, ROOT
+from .config import register, sudo_command, run_command, ROOT, logger
 
 operate = 'install'
 package = "fd"
@@ -12,8 +9,6 @@ link_dst_name = "fd"
 
 @register.registe_method('ubuntu', operate, package)
 def ubuntu_install_package():
-    with open(".log", "a") as f:
-        f.write("-"*40+f"\nInstalling {package}...\n")
-    with open(".log", "a") as f:
-        command = ["apt-get", "install", "-y", apt_package]
-        run_command(command, ROOT)
+    logger.info(f"Installing {package}...")
+    command = ["apt-get", "install", "-y", apt_package]
+    run_command(command, ROOT)

@@ -10,9 +10,9 @@ def install(module_name):
     install_methods = module.register.get_install_methods()
     check_methods = module.register.get_check_methods()
     for key in install_methods:
-        if check_methods[key]():
-            print(f"Skip: {key} is already installed.")
-            continue
+        # if check_methods[key]():
+        #     print(f"Skip: {key} is already installed.")
+        #     continue
         with Loader(desc=f"Installing {key}...", end_success=f"SUCCESS: {key} installation successful!", end_error=f""):
             install_methods[key]()
 
@@ -54,11 +54,6 @@ if __name__ == "__main__":
     if os.getuid() != 0:
         print("Please run as root.")
         exit(1)
-    # with open(".log", "a") as f:
-        # command = sudo_command(["apt-get", "update", "-y"])
-        # command = " ".join(command)
-        # os.system(command)
     install_order = gen_install_order(SUB_DIR-{"base"})
     for package in install_order:
-    # for package in ["base"]:
         install(f"{package}.py")

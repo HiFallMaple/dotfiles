@@ -11,7 +11,7 @@ operate = 'install'
 # @register.registe_method('ubuntu', operate, package)
 # def ubuntu_install_package():
 #     with open(".log", "a") as f:
-#         f.write("-"*40+f"\nInstalling {package}...\n")
+#         f.write("-"*40+f"\nInstalling {package}...")
 #         command = ["sudo", "apt-get", "install", "-y", package]
 #         return subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
 #
