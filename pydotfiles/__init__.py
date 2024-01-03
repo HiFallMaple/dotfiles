@@ -138,8 +138,10 @@ def remove_sudo_nopasswd():
 def run_command(command: list[str], permision: int):
     if permision == USER:
         command = ["sudo", "-u", USER_NAME] + command
-    command_str = " ".join(command)
-    return os.system(command_str)
+    with open(LOG_FILE, "a") as f:
+        return subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
+    # command_str = " ".join(command)
+    # return os.system(command_str)
 
 
 def expanduser(path: str) -> str:
@@ -165,6 +167,7 @@ with open('UID', 'r') as file:
 
 USER_NAME = pwd.getpwuid(ORIGIN_UID).pw_name
 
+LOG_FILE = '.log'
 LOGGING_CONFIG = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -179,7 +182,7 @@ LOGGING_CONFIG = {
             'class': 'logging.FileHandler',
             'level': 'INFO',
             'formatter': 'standard',
-            'filename': '.log',
+            'filename': LOG_FILE,
             'mode': 'a'
         }
     },
