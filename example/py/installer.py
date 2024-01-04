@@ -1,4 +1,5 @@
-from .config import register
+from .config import register, logger
+from pydotfiles import run_command, ROOT, USER
 
 operate = 'install'
 
@@ -9,9 +10,8 @@ operate = 'install'
 #
 # @register.registe_method('ubuntu', operate, package)
 # def ubuntu_install_package():
-#     with open(".log", "a") as f:
-#         f.write("-"*40+f"\nInstalling {package}...")
-#         command = ["sudo", "apt-get", "install", "-y", package]
-#         subprocess.run(command, stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
+# 	logger.info(f"Installing {package}...")
+# 	command = ["apt-get", "install", "-y", package]
+# 	run_command(command, ROOT)
 #
 #======================================================================================================
