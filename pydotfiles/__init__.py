@@ -57,7 +57,11 @@ def dpkg_check(package):
 
 
 def command_check(command):
-    return run_command(["which", command], USER).returncode == 0
+    try:
+        run_command(["which", command], USER)
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
 
 def get_dependencies(current_dir: str) -> list[str]:
