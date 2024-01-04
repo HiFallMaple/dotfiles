@@ -1,5 +1,5 @@
-from .config import register, expanduser
-from pydotfiles import command_check
+from .config import register
+from pydotfiles import expanduser
 import os
 
 operate = 'check'

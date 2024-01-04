@@ -1,4 +1,5 @@
-from .config import register, sudo_command, run_command, ROOT, logger
+from .config import register, logger
+from pydotfiles import run_command, ROOT
 
 
 operate = 'install'

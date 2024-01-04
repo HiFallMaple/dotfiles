@@ -1,5 +1,6 @@
 import os
-from .config import register, expanduser, run_command, USER, logger
+from .config import register, logger
+from pydotfiles import expanduser, run_command, USER
 
 operate = 'install'
 package = "zinit"

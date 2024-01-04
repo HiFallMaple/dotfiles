@@ -1,4 +1,3 @@
-import subprocess
 from .config import register
 
 operate = 'uninstall'

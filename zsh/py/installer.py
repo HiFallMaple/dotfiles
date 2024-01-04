@@ -1,5 +1,6 @@
 import shutil
-from .config import register, sudo_command, run_command, ROOT, USER, USER_NAME, logger
+from .config import register, logger
+from pydotfiles import run_command, ROOT, USER_NAME
 
 operate = 'install'
 package = "zsh"

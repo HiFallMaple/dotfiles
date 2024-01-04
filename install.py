@@ -1,7 +1,6 @@
-import subprocess
 import os
 import importlib
-from pydotfiles import Loader, check_sudo_nopasswd, add_sudo_nopasswd, remove_sudo_nopasswd, file2set, sudo_command
+from pydotfiles import Loader, file2set
 from config import SUB_DIR
 
 
@@ -10,9 +9,9 @@ def install(module_name):
     install_methods = module.register.get_install_methods()
     check_methods = module.register.get_check_methods()
     for key in install_methods:
-        # if check_methods[key]():
-        #     print(f"Skip: {key} is already installed.")
-        #     continue
+        if check_methods[key]():
+            print(f"Skip: {key} is already installed.")
+            continue
         with Loader(desc=f"Installing {key}...", end_success=f"SUCCESS: {key} installation successful!", end_error=f""):
             install_methods[key]()
 

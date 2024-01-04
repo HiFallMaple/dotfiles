@@ -1,6 +1,7 @@
 import os
 import requests
-from .config import register, sudo_command, run_command, USER, ROOT, logger
+from .config import register, logger
+from pydotfiles import run_command, USER, ROOT
 
 operate = 'install'
 package = "du-dust"

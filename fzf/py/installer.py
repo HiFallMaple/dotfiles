@@ -1,6 +1,6 @@
 import os
-from .config import register, parent_dir, sudo_command, expanduser, run_command, ROOT, USER, logger
-
+from .config import register, parent_dir, logger
+from pydotfiles import expanduser, run_command, USER, ROOT
 operate = 'install'
 package = "fzf"
 

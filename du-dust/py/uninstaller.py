@@ -1,5 +1,5 @@
-import subprocess
-from .config import register, run_command, ROOT
+from .config import register
+from pydotfiles import run_command, ROOT
 
 operate = 'uninstall'
 package = "du-dust"

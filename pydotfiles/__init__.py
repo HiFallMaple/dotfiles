@@ -1,13 +1,12 @@
 import os
-import shutil
 import subprocess
 import getpass
 import sys
-from collections.abc import Callable
 import platform
 import distro
-from .loader import Loader
 import pwd
+from .loader import Loader
+from collections.abc import Callable
 
 
 class Register:
@@ -59,7 +58,7 @@ def dpkg_check(package):
 
 
 def command_check(command):
-    return run_command(["which", command, ">", "/dev/null"], USER) == 0
+    return run_command(["which", command], USER).returncode == 0
 
 
 def get_dependencies(current_dir: str) -> list[str]:
@@ -139,9 +138,7 @@ def run_command(command: list[str], permision: int):
     if permision == USER:
         command = ["sudo", "-u", USER_NAME] + command
     with open(LOG_FILE, "a") as f:
-        return subprocess.run(command , stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
-    # command_str = " ".join(command)
-    # return os.system(command_str)
+        return subprocess.run(command, stdout=f, stderr=subprocess.STDOUT, text=True, check=True)
 
 
 def expanduser(path: str) -> str:
@@ -194,6 +191,6 @@ LOGGING_CONFIG = {
         }
     }
 }
-  
+
 allow_platforms: list[str] = ["ubuntu", "arch", "windows", "macos"]
 allow_operates: list[str] = ["install", "uninstall", "check"]

@@ -1,5 +1,5 @@
-import subprocess
-from .config import appList, register, run_command, ROOT
+from .config import appList, register
+from pydotfiles import run_command, ROOT
 
 
 operate = 'uninstall'

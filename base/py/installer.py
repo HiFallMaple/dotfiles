@@ -1,5 +1,5 @@
-from .config import appList, register, run_command, ROOT, logger
-
+from .config import appList, register, logger
+from pydotfiles import run_command, ROOT
 operate = 'install'
 
 
