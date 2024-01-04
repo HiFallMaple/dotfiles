@@ -1,6 +1,5 @@
 import os
 import subprocess
-import getpass
 import sys
 import platform
 import distro
@@ -79,59 +78,6 @@ def get_platform_info():
         return distro.name().lower()
     else:
         return system_name.lower()
-
-
-def get_current_dir():
-    return os.path.dirname(os.path.realpath(__file__))
-
-
-def sudo_command(command):
-    # Check if superuser privileges are present
-    if os.geteuid() != 0:
-        command.insert(0, "sudo")
-    return command
-
-
-def add_sudo_nopasswd():
-    # Get the current username
-    username = getpass.getuser()
-
-    # Check if superuser privileges are present
-    if os.geteuid() == 0:
-        print("You already have superuser privileges, no need for sudo.")
-    else:
-        # Use sudo to add a file in the /etc/sudoers.d directory
-        command = f"echo '{username} ALL=(ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/tmp"
-        if subprocess.run(command, shell=True, capture_output=True, text=True).returncode:
-            raise Exception(
-                "Adding the tmp file in the /etc/sudoers.d directory using sudo failed.")
-        else:
-            print(
-                "Successfully added the tmp file in the /etc/sudoers.d directory using sudo.")
-
-
-def check_sudo_nopasswd():
-    # Execute the sudo -l command
-    result = subprocess.run(["sudo", "-l"], capture_output=True, text=True)
-    if result.returncode:
-        raise Exception("sudo -l failed.")
-    # Check if the output contains (ALL) NOPASSWD: ALL
-    return "(ALL) NOPASSWD: ALL" in result.stdout
-
-
-def remove_sudo_nopasswd():
-    # sudo rm /etc/sudoers.d/tmp
-    if os.path.exists("/etc/sudoers.d/tmp"):
-        print("Removing the tmp file from the /etc/sudoers.d directory using sudo.")
-        command = ["sudo", "rm", "/etc/sudoers.d/tmp"]
-        if subprocess.run(command, capture_output=True, text=True).returncode:
-            raise Exception(
-                "Removing the tmp file from the /etc/sudoers.d directory using sudo failed.")
-        else:
-            print(
-                "Successfully removed the tmp file from the /etc/sudoers.d directory using sudo.")
-    else:
-        print("The tmp file does not exist in the /etc/sudoers.d directory.")
 
 
 def run_command(command: list[str], permision: int):
