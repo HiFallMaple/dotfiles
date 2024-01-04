@@ -40,7 +40,7 @@ def link_dotfiles_of_package(package_name, linkList):
         src, dst = replace_which(link_peer).split()
         src = process_path(src, package_name)
         dst = expanduser(dst)
-        print(src, dst)
+        print(f"Link {src} -> {dst}.")
         if not os.path.exists(src):
             raise Exception(f"{src} does not exist.")
         if os.path.exists(dst):
