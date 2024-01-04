@@ -29,7 +29,7 @@ zle_highlight+=(paste:none)
 alias ls="ls --color=auto"
 alias ll="ls -alF"
 alias la="ls -a"
-alias vim="nvim"
+# alias vim="nvim"
 
 
 eval "$(starship init zsh)"
