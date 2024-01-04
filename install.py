@@ -17,6 +17,16 @@ def install(module_name):
 
 
 def gen_install_order(packages):
+    if "base" in packages:
+        packages = packages-{"base"}
+    else:
+        raise Exception("No base dir found.")
+
+    if "pyenv" in packages:
+        packages = packages-{"pyenv"}
+    else:
+        raise Exception("No pyenv dir found.")
+
     # 創建一個字典來存儲每個包的依賴關係
     dependencies = {}
     for package in packages:
@@ -45,7 +55,8 @@ def gen_install_order(packages):
 
     sorted_packages = [
         package for package in sorted_packages if package not in base_appList]
-    sorted_packages.insert(0, "base")
+    
+    sorted_packages = ["base", "pyenv"] + sorted_packages
     return sorted_packages
 
 
@@ -53,6 +64,6 @@ if __name__ == "__main__":
     if os.getuid() != 0:
         print("Please run as root.")
         exit(1)
-    install_order = gen_install_order(SUB_DIR-{"base"})
+    install_order = gen_install_order(SUB_DIR)
     for package in install_order:
         install(f"{package}.py")
