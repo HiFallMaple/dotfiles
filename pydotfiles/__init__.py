@@ -16,6 +16,10 @@ class Register:
                 "package_name": func,
                 ...
             },
+            "setup": {
+                "package_name": func,
+                ...
+            },
             "uninstall": {
                 "package_name": func,
                 ...
@@ -44,6 +48,9 @@ class Register:
 
     def get_install_methods(self):
         return self.methods.setdefault("install", {}).setdefault(self.platform, {})
+
+    def get_setup_methods(self):
+        return self.methods.setdefault("setup", {}).setdefault(self.platform, {})
 
     def get_check_methods(self):
         return self.methods.setdefault("check", {}).setdefault(self.platform, {})
@@ -114,7 +121,7 @@ def user_has_write_permission(path: str) -> bool:
 
 
 ALLOW_PALTFORMS: list[str] = ["ubuntu", "arch", "windows", "macos"]
-ALLOW_OPERATES: list[str] = ["install", "uninstall", "check"]
+ALLOW_OPERATES: list[str] = ["install", "setup", "uninstall", "check"]
 OS_PLATFORM: str = get_platform_info()
 ORIGIN_UID: int
 ROOT: int = 0
