@@ -102,9 +102,8 @@ def file2set(path):
 def user_has_write_permission(path: str) -> bool:
     stat_info = os.stat(path)
     # check if the file is owned by the user
-    # or the user is in the group of the file
     # and the file has write permission
-    if (ORIGIN_UID == stat_info.st_uid or ORIGIN_UID in os.getgroups()) and stat_info.st_mode & 0o200:
+    if ORIGIN_UID == stat_info.st_uid and stat_info.st_mode & 0o200:
         return True
     else:
         return False
