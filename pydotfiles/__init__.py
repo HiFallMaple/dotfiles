@@ -124,10 +124,11 @@ ALLOW_PALTFORMS: list[str] = ["ubuntu", "arch", "windows", "macos"]
 ALLOW_OPERATES: list[str] = ["install", "setup", "uninstall", "check"]
 OS_PLATFORM: str = get_platform_info()
 ORIGIN_UID: int
+ORIGIN_UID_FILE: str = "UID"
 ROOT: int = 0
 USER: int = 1
 
-with open('UID', 'r') as file:
+with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), ORIGIN_UID_FILE), 'r') as file:
     first_line = file.readline().strip()
     ORIGIN_UID = int(first_line)
 
