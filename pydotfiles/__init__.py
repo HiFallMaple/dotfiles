@@ -120,21 +120,30 @@ def user_has_write_permission(path: str) -> bool:
         return False
 
 
+def __get_dotfiles_rel_path():
+    return os.path.dirname(os.path.dirname(__file__))
+
+
+def __join_dotfiles_dir(path: str):
+    return os.path.join(__get_dotfiles_rel_path(), path)
+
 ALLOW_PALTFORMS: list[str] = ["ubuntu", "arch", "windows", "macos"]
 ALLOW_OPERATES: list[str] = ["install", "setup", "uninstall", "check"]
 OS_PLATFORM: str = get_platform_info()
 ORIGIN_UID: int
 ORIGIN_UID_FILE: str = "UID"
+ORIGIN_UID_FILE_PATH: str = __join_dotfiles_dir(ORIGIN_UID_FILE)
 ROOT: int = 0
 USER: int = 1
 
-with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), ORIGIN_UID_FILE), 'r') as file:
+with open(ORIGIN_UID_FILE_PATH, 'r') as file:
     first_line = file.readline().strip()
     ORIGIN_UID = int(first_line)
 
 USER_NAME: str = pwd.getpwuid(ORIGIN_UID).pw_name
 
 LOG_FILE = '.log'
+LOG_FILE_PATH = __join_dotfiles_dir(LOG_FILE)
 LOGGING_CONFIG: dict = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -149,7 +158,7 @@ LOGGING_CONFIG: dict = {
             'class': 'logging.FileHandler',
             'level': 'INFO',
             'formatter': 'standard',
-            'filename': LOG_FILE,
+            'filename': LOG_FILE_PATH,
             'mode': 'a'
         }
     },
