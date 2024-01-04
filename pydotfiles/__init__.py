@@ -27,15 +27,15 @@ class Register:
             },
         }
         """
-        self.methods: dict[str, dict[str, dict[str, Callable]]] = {}
+        self.methods: dict[str, dict[str, Callable]] = {}
         self.platform = OS_PLATFORM
 
     def registe_method(self, platform: str, operate: str, package: str):
         def decorator(func):
-            if platform not in allow_platforms:
+            if platform not in ALLOW_PALTFORMS:
                 print(f"Error: platform {platform} not allowed.")
                 sys.exit(1)
-            elif operate not in allow_operates:
+            elif operate not in ALLOW_OPERATES:
                 print(f"Error: operate {operate} not allowed.")
                 sys.exit(1)
             self.methods.setdefault(operate, {}).setdefault(
@@ -151,21 +151,34 @@ def file2set(path):
             return {line.strip() for line in f.readlines() if line.strip() != ""}
     else:
         return set()
+    
+
+def user_has_write_permission(path: str) -> bool:
+    stat_info = os.stat(path)
+    # check if the file is owned by the user
+    # or the user is in the group of the file
+    # and the file has write permission
+    if (ORIGIN_UID == stat_info.st_uid or ORIGIN_UID in os.getgroups()) and stat_info.st_mode & 0o200:
+        return True
+    else:
+        return False
 
 
+ALLOW_PALTFORMS: list[str] = ["ubuntu", "arch", "windows", "macos"]
+ALLOW_OPERATES: list[str] = ["install", "uninstall", "check"]
 OS_PLATFORM: str = get_platform_info()
 ORIGIN_UID: int
-ROOT = 0
-USER = 1
+ROOT: int = 0
+USER: int = 1
 
 with open('UID', 'r') as file:
     first_line = file.readline().strip()
     ORIGIN_UID = int(first_line)
 
-USER_NAME = pwd.getpwuid(ORIGIN_UID).pw_name
+USER_NAME: str = pwd.getpwuid(ORIGIN_UID).pw_name
 
 LOG_FILE = '.log'
-LOGGING_CONFIG = {
+LOGGING_CONFIG: dict = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
@@ -192,5 +205,3 @@ LOGGING_CONFIG = {
     }
 }
 
-allow_platforms: list[str] = ["ubuntu", "arch", "windows", "macos"]
-allow_operates: list[str] = ["install", "uninstall", "check"]

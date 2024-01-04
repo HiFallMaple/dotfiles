@@ -1,8 +1,7 @@
 import os
 import re
 import shutil
-import subprocess
-from pydotfiles import check_sudo_nopasswd, add_sudo_nopasswd, remove_sudo_nopasswd, sudo_command, file2set
+from pydotfiles import file2set, run_command, expanduser, user_has_write_permission, ROOT, USER
 from config import SUB_DIR, WHICH_REX
 
 
@@ -11,15 +10,16 @@ def ask_for_replace(dst):
         
     if ans.lower() == "" or ans.lower() == "y":
         command = ["rm","-rf", dst]
-        if not os.access(dst, os.W_OK):
-            command = sudo_command(command)
-        subprocess.run(command, text=True, check=True)
+        if user_has_write_permission(dst):
+            run_command(command, USER)
+        else:
+            run_command(command, ROOT)
         return True
     return False
 
 
 def process_path(path, package_name):
-    path = os.path.expanduser(path)
+    path = expanduser(path)
     if os.path.isabs(path):
         return path
     else:
@@ -27,7 +27,7 @@ def process_path(path, package_name):
     
 
 def replace_which(link_peer: str) -> (str, str):
-    matches = re.finditer(r'\$which/([^/\s]+)', link_peer)
+    matches = re.finditer(WHICH_REX, link_peer)
     for match in matches:
         # match.group(0): $which/filename
         # match.group(1): filename
@@ -39,7 +39,7 @@ def link_dotfiles_of_package(package_name, linkList):
     for link_peer in linkList:
         src, dst = replace_which(link_peer).split()
         src = process_path(src, package_name)
-        dst = os.path.expanduser(dst)
+        dst = expanduser(dst)
         print(src, dst)
         if not os.path.exists(src):
             raise Exception(f"{src} does not exist.")
@@ -47,9 +47,12 @@ def link_dotfiles_of_package(package_name, linkList):
             if not ask_for_replace(dst):
                 continue
         command = ["ln", "-s", src, dst]
-        if not (os.access(os.path.dirname(src), os.W_OK) and os.access(os.path.dirname(dst), os.W_OK)):
-            command = sudo_command(command)
-        subprocess.run(command, text=True, check=True)
+        src_dir = os.path.dirname(src)
+        dst_dir = os.path.dirname(dst)
+        if user_has_write_permission(src_dir) and user_has_write_permission(dst_dir):
+            run_command(command, USER)
+        else:
+            run_command(command, ROOT)
 
 
 def walk_dir(dir):
@@ -63,9 +66,7 @@ def walk_dir(dir):
 
 
 if __name__ == "__main__":
-    if not check_sudo_nopasswd():
-        add_sudo_nopasswd()
-
+    if os.getuid() != 0:
+        print("Please run as root.")
+        exit(1)
     walk_dir(SUB_DIR)
-
-    remove_sudo_nopasswd()
