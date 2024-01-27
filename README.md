@@ -6,7 +6,6 @@
   + wget
   + bat
   + fd-find
-  + exa
   + duf
   + btop
   + ripgrep
@@ -18,10 +17,5 @@
 
 ## Install All
 ```shell
-sudo apt install git
-git clone https://github.com/tony53517230/dotfiles.git
-cd dotfiles
-./link_dotfile.sh
-./init.sh
-./install.sh
+python3 dotfiles.py
 ```
