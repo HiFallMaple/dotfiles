@@ -26,9 +26,9 @@ def process_path(path, package_name):
         return os.path.abspath(os.path.join(package_name, "dotfile", path))
     
 
-def replace_which(link_peer: str) -> (str, str):
-    matches = re.finditer(WHICH_REX, link_peer)
-    for match in matches:
+def replace_which(link_peer: str) -> str:
+    match = re.search(WHICH_REX, link_peer)
+    if match:
         # match.group(0): $which/filename
         # match.group(1): filename
         link_peer = link_peer.replace(match.group(0), shutil.which(match.group(1)))
