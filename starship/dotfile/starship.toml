@@ -90,13 +90,15 @@ format = "[ $all_status$ahead_behind ]($style)[\uE0B0](#3A95C7 bg:#none)"
 style = "bg:#3A95C7 fg:white"
 
 [username]
-format = "[ $user ]($style)"
+format = "[ $user]($style)"
 style_root = "bg:#4B65A3 fg:white"
 style_user = "bg:#4B65A3 fg:white"
+show_always = true
 
 [hostname]
-format = "[$ssh_symbol$hostname ]($style)[\uE0B0](#4B65A3 bg:#none)"
-ssh_symbol = '🌐 '
+format = "[@$hostname $ssh_symbol ]($style)[\uE0B0](#4B65A3 bg:#none)"
+ssh_symbol = '🌐'
+ssh_only = false
 style = "bg:#4B65A3 fg:white"
 
 [time]
