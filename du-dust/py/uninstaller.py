@@ -5,7 +5,7 @@ operate = 'uninstall'
 package = "du-dust"
 
 
-@register.registe_method('ubuntu', operate, package)
+@register.registe_method(['ubuntu22', 'ubuntu24'], operate, package)
 def ubuntu_uninstall_package():
 	command = ["apt-get", "purge", "-y", package]
 	return run_command(command, ROOT)

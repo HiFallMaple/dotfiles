@@ -8,7 +8,7 @@ operate = 'install'
 # example
 #======================================================================================================
 #
-# @register.registe_method('ubuntu', operate, package)
+# @register.registe_method(['ubuntu22'], operate, package)
 # def ubuntu_install_package():
 # 	logger.info(f"Installing {package}...")
 # 	command = ["apt-get", "install", "-y", package]

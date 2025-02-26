@@ -17,4 +17,5 @@ if __name__ == "__main__":
         print("Please run as root.")
         exit(1)
     for package in SUB_DIR:
+        print(package)
         setup(f"{package}.py")

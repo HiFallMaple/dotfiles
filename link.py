@@ -49,6 +49,7 @@ def link_dotfiles_of_package(package_name, linkList):
         command = ["ln", "-s", src, dst]
         src_dir = os.path.dirname(src)
         dst_dir = os.path.dirname(dst)
+        print(src, dst)
         if user_has_write_permission(src_dir) and user_has_write_permission(dst_dir):
             run_command(command, USER)
         else:

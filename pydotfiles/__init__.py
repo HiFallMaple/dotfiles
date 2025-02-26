@@ -5,6 +5,7 @@ import platform
 import distro
 import pwd
 from .loader import Loader
+from collections import defaultdict
 from collections.abc import Callable
 
 
@@ -30,33 +31,34 @@ class Register:
             },
         }
         """
-        self.methods: dict[str, dict[str, Callable]] = {}
+        self.methods: defaultdict[str, defaultdict[str, dict[str, Callable]]] = defaultdict(
+            lambda: defaultdict(dict))
         self.platform = OS_PLATFORM
 
-    def registe_method(self, platform: str, operate: str, package: str):
+    def registe_method(self, platforms: list[str], operate: str, package: str):
         def decorator(func):
-            if platform not in ALLOW_PALTFORMS:
-                print(f"Error: platform {platform} not allowed.")
-                sys.exit(1)
-            elif operate not in ALLOW_OPERATES:
-                print(f"Error: operate {operate} not allowed.")
-                sys.exit(1)
-            self.methods.setdefault(operate, {}).setdefault(
-                platform, {})[package] = func
+            for platform in platforms:
+                if not is_allow_platform(platform):
+                    print(f"Error: platform {platform} not allowed.")
+                    sys.exit(1)
+                elif operate not in ALLOW_OPERATES:
+                    print(f"Error: operate {operate} not allowed.")
+                    sys.exit(1)
+                self.methods[operate][platform][package] = func
             return func
         return decorator
 
     def get_install_methods(self):
-        return self.methods.setdefault("install", {}).setdefault(self.platform, {})
+        return self.methods["install"][self.platform]
 
     def get_setup_methods(self):
-        return self.methods.setdefault("setup", {}).setdefault(self.platform, {})
+        return self.methods["setup"][self.platform]
 
     def get_check_methods(self):
-        return self.methods.setdefault("check", {}).setdefault(self.platform, {})
+        return self.methods["check"][self.platform]
 
     def get_uninstall_methods(self):
-        return self.methods.setdefault("uninstall", {}).setdefault(self.platform, {})
+        return self.methods["uninstall"][self.platform]
 
 
 def dpkg_check(package):
@@ -86,9 +88,21 @@ def get_dependencies(current_dir: str) -> list[str]:
 def get_platform_info():
     system_name = platform.system()
     if system_name == 'Linux':
-        return distro.name().lower()
+        version = distro.version().split('.')[0]
+        return f"{distro.name().lower()}{version}"
+    elif system_name == 'Windows':
+        version = platform.version().split('.')[0]
+        return f"windows{version}"
+    elif system_name == 'Darwin':  # macOS
+        version = platform.mac_ver()[0].split('.')[0]
+        return f"macos{version}"
     else:
-        return system_name.lower()
+        version = platform.release().split('.')[0]
+        return f"{system_name.lower()}{version}"
+
+
+def is_allow_platform(current_platform: str) -> bool:
+    return any(platform in current_platform for platform in ALLOW_PALTFORMS)
 
 
 def run_command(command: list[str], permision: int):
@@ -108,7 +122,7 @@ def file2set(path):
             return {line.strip() for line in f.readlines() if line.strip() != ""}
     else:
         return set()
-    
+
 
 def user_has_write_permission(path: str) -> bool:
     stat_info = os.stat(path)
@@ -127,7 +141,9 @@ def __get_dotfiles_rel_path():
 def __join_dotfiles_dir(path: str):
     return os.path.join(__get_dotfiles_rel_path(), path)
 
-ALLOW_PALTFORMS: list[str] = ["ubuntu", "arch", "windows", "macos"]
+
+ALLOW_PALTFORMS: list[str] = ["ubuntu22",
+                              "ubuntu24", "arch", "windows", "macos"]
 ALLOW_OPERATES: list[str] = ["install", "setup", "uninstall", "check"]
 OS_PLATFORM: str = get_platform_info()
 ORIGIN_UID: int
@@ -170,4 +186,3 @@ LOGGING_CONFIG: dict = {
         }
     }
 }
-

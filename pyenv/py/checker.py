@@ -5,7 +5,7 @@ operate = 'check'
 package = "pyenv"
 
 
-@register.registe_method('ubuntu', operate, package)
+@register.registe_method(['ubuntu22', 'ubuntu24'], operate, package)
 def ubuntu_check_package():
     # to check package of python is installed is not easy, so always return False
 	return False

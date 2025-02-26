@@ -4,7 +4,7 @@ operate = 'install'
 
 
 def install_func_factory(app):
-    @register.registe_method('ubuntu', operate, app)
+    @register.registe_method(['ubuntu22', 'ubuntu24'], operate, app)
     def ubuntu_install_package():
         logger.info(f"Installing {app}...")
         command = ["apt-get", "install", "-y", app]

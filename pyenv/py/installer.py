@@ -7,7 +7,7 @@ operate = 'install'
 package = 'pyenv'
 
 
-@register.registe_method('ubuntu', operate, package)
+@register.registe_method(['ubuntu22', 'ubuntu24'], operate, package)
 def ubuntu_install_package():
     logger.info(f"Installing {package}...")
     externally_managed_path = os.path.join(sysconfig.get_path("stdlib", sysconfig.get_default_scheme()), "EXTERNALLY-MANAGED")

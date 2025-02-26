@@ -6,7 +6,7 @@ operate = 'install'
 package = "zinit"
 
 
-@register.registe_method('ubuntu', operate, package)
+@register.registe_method(['ubuntu22', 'ubuntu24'], operate, package)
 def ubuntu_install_package():
     logger.info(f"Installing {package}...")
     zinit_home = expanduser("~/.local/share/zinit/zinit.git")

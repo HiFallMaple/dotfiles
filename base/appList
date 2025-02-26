@@ -6,3 +6,4 @@ wget
 duf
 btop
 ripgrep
+fd-find

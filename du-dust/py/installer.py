@@ -17,7 +17,7 @@ def __get_latest_amd64_deb_url() -> str:
             return li["browser_download_url"]
 
 
-@register.registe_method('ubuntu', operate, package)
+@register.registe_method(['ubuntu22', 'ubuntu24'], operate, package)
 def ubuntu_install_package():
     logger.info(f"Installing {package}...")
     deb_url = __get_latest_amd64_deb_url()

@@ -1,11 +1,11 @@
 import os
 import subprocess
-from pydotfiles import OS_PLATFORM, ALLOW_PALTFORMS
+from pydotfiles import OS_PLATFORM, is_allow_platform
 
 if __name__ == "__main__":
-    if OS_PLATFORM not in ALLOW_PALTFORMS:
+    if not is_allow_platform(OS_PLATFORM):
         raise(f"Error: platform {OS_PLATFORM} not allowed.")
-    elif OS_PLATFORM == 'ubuntu':
+    elif 'ubuntu' in OS_PLATFORM:
         subprocess.run("sudo apt update", shell=True, check=True)
     uid = os.getuid()
     with open("UID", "w") as f:

@@ -8,7 +8,7 @@ operate = 'install'
 # example
 #======================================================================================================
 #
-# @register.registe_method('ubuntu', operate, package)
+# @register.registe_method(['ubuntu22'], operate, package)
 # def ubuntu_uninstall_package():
 # 	logger.info(f"Uninstalling {package}...")
 # 	command = ["apt-get", "purge", "-y", package]

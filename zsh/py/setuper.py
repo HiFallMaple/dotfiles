@@ -6,7 +6,7 @@ operate = 'setup'
 package = "zsh"
 
 
-@register.registe_method('ubuntu', operate, package)
+@register.registe_method(['ubuntu22', 'ubuntu24'], operate, package)
 def ubuntu_setup_package():
     logger.info(f"Setting up {package}...")
     command = ['chsh', '-s', shutil.which("zsh"), USER_NAME]
