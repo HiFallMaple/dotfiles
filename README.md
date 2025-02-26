@@ -1,5 +1,5 @@
 # dotfile
-+ Linux distro: Ubuntu 22.04 LTS
++ Linux distro: Ubuntu 22.04/24.04 LTS
 + Installed software:
   + vim
   + curl
